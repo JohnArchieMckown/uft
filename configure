@@ -1,5 +1,5 @@
 #!/bin/sh
-# © Copyright 1997, Richard M. Troth, all rights reserved.   <plaintext> 
+# Â© Copyright 1997, Richard M. Troth, all rights reserved.   <plaintext> 
 # 
 #	  Name: configure (shell script) 
 #		set-up 'sendfile' (UFT) source directory for [re]making 

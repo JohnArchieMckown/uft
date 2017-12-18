@@ -1,4 +1,4 @@
-/* © Copyright 1996, Richard M. Troth, all rights reserved.  <plaintext> 
+/* Â© Copyright 1996, Richard M. Troth, all rights reserved.  <plaintext> 
  * 
  *	  Name: msgdlmsg.c 
  *		syslog the arrival of this message 

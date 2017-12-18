@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------- ÆCS
+/* ----------------------------------------------------------------- AECS
  * ASCII to EBCDIC and vice-versa code conversion routines.
  * Tables included here are based on ASCII conforming to the ISO8859-1
  * Latin 1 character set and EBCDIC conforming to the IBM Code Page 37

@@ -1,4 +1,4 @@
-/* © Copyright 1998, Richard M. Troth, all rights reserved.  <plaintext> 
+/* Â© Copyright 1998, Richard M. Troth, all rights reserved.  <plaintext> 
  * 
  *	  Name: uftdinit.c 
  *	Author: Rick Troth, Houston, Texas, USA 

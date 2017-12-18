@@ -1,4 +1,4 @@
-/* © Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext>
+/* Â© Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext>
  *
  *	  Name: uftd.c
  *		Universal File Transfer daemon

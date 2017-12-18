@@ -1,4 +1,4 @@
-/* © Copyright 1994, 1996, Richard M. Troth, all rights reserved. 
+/* Â© Copyright 1994, 1996, Richard M. Troth, all rights reserved. 
  *		(casita sourced) <plaintext> 
  * 
  *	  Name: msglocal.c 

@@ -1,4 +1,4 @@
-/* © Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext> 
+/* Â© Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext> 
  * 
  *	  Name: userid.c 
  *		return the login name associated with this process 
