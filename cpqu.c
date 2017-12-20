@@ -1,4 +1,4 @@
-/* © Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext> 
+/* Â© Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext> 
  * 
  *	  Name: cpqu.c 
  *		for BITNET folks with a habit, CPQ USER <someone> 

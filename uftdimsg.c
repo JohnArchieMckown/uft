@@ -1,4 +1,4 @@
-/* © Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext>
+/* Â© Copyright 1995, Richard M. Troth, all rights reserved.  <plaintext>
  *
  *	  Name: uftdimsg.c
  *		signal the user that a file has arrived

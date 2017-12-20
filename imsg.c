@@ -1,4 +1,4 @@
-/* © Copyright 1996, Richard M. Troth, all rights reserved.  <plaintext> 
+/* Â© Copyright 1996, Richard M. Troth, all rights reserved.  <plaintext> 
  *		(casita sourced) 
  * 
  *	  Name: imsg.c 
