@@ -10,6 +10,9 @@
  
 #include	<stdio.h> 
 #include	<ctype.h> 
+#include	<string.h>
+#include	<stdlib.h>
+#include	"uft.h"
  
 /* 
  *  See how SYSLOG does it. 
@@ -18,7 +21,7 @@
 /* ------------------------------------------------------------- SPRINTM 
  *  Read a message from the repository; fill-in the blanks. 
  */ 
-int sprintm( 
+char *sprintm( 
   char   *s, 
   char   *msgf, 	/*  message file (short, basename), APPLID  */ 
   char   *msgu, 	/*  "caller" or user  */ 
@@ -129,13 +132,13 @@ int sprintm(
 /* ------------------------------------------------------------- MSGREAD
  *  Read the message repository source file. 
  */ 
-char *msgread(msgf,msgu,msgn,msgl,msgc,msgv) 
-  char   *msgf; 	/*  message file (short, basename), APPLID  */ 
-  char   *msgu; 	/*  "caller" or user  */ 
-  int     msgn; 	/*  message number  */ 
-  char    msgl; 	/*  message level byte  */ 
-  int     msgc; 	/*  count of replacement tokens  */ 
-  char   *msgv[]; 	/*  vector of replacement tokens  */ 
+char *msgread(
+  char   *msgf, 	/*  message file (short, basename), APPLID  */ 
+  char   *msgu, 	/*  "caller" or user  */ 
+  int     msgn, 	/*  message number  */ 
+  char    msgl, 	/*  message level byte  */ 
+  int     msgc, 	/*  count of replacement tokens  */ 
+  char   *msgv[]) 	/*  vector of replacement tokens  */ 
   { 
     FILE       *msgfile; 
     char	msgrecord[256],     msgtext[256],   temp[256]; 
@@ -237,9 +240,7 @@ char *msgread(msgf,msgu,msgn,msgl,msgc,msgv)
   }
  
 /* ------------------------------------------------------------------ */
-int main(argc,argv)
-  int     argc;
-  char   *argv[];
+int main(int argc, char *argv[])
   { 
     char       *applid,    *caller,     level, 
 	      **msgv; 

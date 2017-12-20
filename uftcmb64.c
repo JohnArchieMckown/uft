@@ -13,7 +13,7 @@
  */ 
  
 /* ------------------------------------------------------------------ */ 
-int main() 
+int main(int argc, char *argv[]) 
   { 
     int         bc;		/*  byte count  */ 
     char        line[256];	/*  record buffer  */ 
@@ -65,6 +65,5 @@ int main()
     (void) close(0); 
  
     return 0; 
-  } 
- 
+  }
 

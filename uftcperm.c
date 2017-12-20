@@ -7,7 +7,8 @@
  */ 
  
 #include        <sys/stat.h>
- 
+#include	"uft.h"
+
 char *uftcprot(mode_t prot) 
   { 
     static char buffer[256]; 
@@ -53,5 +54,4 @@ char *uftcprot(mode_t prot)
     *p++ = 0x00; 
     return buffer; 
   } 
- 
 

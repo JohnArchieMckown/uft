@@ -11,8 +11,7 @@
  *  Similar calling syntax to read(), 
  *  from, to, count,  in this case  fd, fd, int. 
  */ 
-int uftddata(o,i,n) 
-  int     o, i, n; 
+int uftddata(int o,int i, int n) 
   { 
     int 	j, k, l; 
     char	b[BUFSIZ]; 
@@ -28,4 +27,3 @@ int uftddata(o,i,n)
     return l; 
   } 
  
-

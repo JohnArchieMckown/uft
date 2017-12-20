@@ -40,7 +40,7 @@
  * Returns a pointer to the value of the requested variable, 
  * or points to the end of the environment buffer. 
  */ 
-char *envget(env,var) 
+char *envget(char *env, char *var) 
   char   *env, *var; 
   { 
     char   *p, *q; 
@@ -59,8 +59,7 @@ char *envget(env,var)
   } 
  
 /* ------------------------------------------------------------------ */ 
-main(argc,argv) 
-  int argc;  char *argv[]; 
+main(int argc, char *argv[])
   { 
     int 	i, fd, pid; 
     char	buffer[4096], *p, *q, *arg0, *envbuf, *user; 
@@ -221,8 +220,6 @@ main(argc,argv)
     (void) perror(arg0); 
     return 0; 
   } 
- 
-
 
 /* 
 
@@ -237,6 +234,4 @@ main(argc,argv)
         When type		"FILE" (is an IMSG) 
         When type		"MAIL" (is an IMSG) 
         When type		"TIME" (is an IMSG) 
-
-
  */ 

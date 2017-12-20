@@ -13,8 +13,7 @@
  
 /* ------------------------------------------------------------ UFTCTEXT
  */
-int uftctext(s,b,l)
-  int s; char *b; int l;
+int uftctext(int s, char *b, int l)
   {
     char	t[BUFSIZ] /* , *p */ ;
     int 	i, j, k;
@@ -43,5 +42,4 @@ int uftctext(s,b,l)
  
     return j;
   }
- 
  

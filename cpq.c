@@ -18,9 +18,7 @@
 int		uftcflag; 
  
 /* ------------------------------------------------------------------ */ 
-int main(argc,argv) 
-  int     argc; 
-  char   *argv[]; 
+int main(int argc, char *argv[]) 
   { 
     char	temp[BUFSIZ], cpqs[BUFSIZ], *host, *arg1; 
     int 	s, i, j; 
@@ -104,5 +102,4 @@ int main(argc,argv)
  
     return 0; 
   } 
- 
 

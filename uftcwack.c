@@ -60,6 +60,5 @@ int uftcwack(int s,char *b,int l)
 		if (b[0] != 0x00) 
 			(void) putline(2,b); 
       } 
-  } 
- 
+  }
 

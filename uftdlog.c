@@ -9,9 +9,7 @@
  
 /* ------------------------------------------------------------- UFTDLOG 
  */ 
-int uftdlog(s,b) 
-  int     s; 
-  char   *b; 
+int uftdlog(int s, char *b) 
   { 
     char	temp[256]; 
  

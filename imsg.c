@@ -25,7 +25,7 @@
 char *from; 
  
 /* ------------------------------------------------------------ SENDIMSG 
- */ 
+ */
 int sendimsg ( char *user , char *text ) 
   { 
     char	buffer[4096], *p; 
@@ -126,5 +126,4 @@ int main ( int argc , char *argv[] )
       } 
     return 0; 
   } 
- 
 

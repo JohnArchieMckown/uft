@@ -13,9 +13,8 @@
 #include	<syslog.h> 
 #include	"uft.h" 
  
-/* ------------------------------------------------------------------ */ 
-int uftdlmsg(user,file,from,type) 
-  char   *user, *file, *type, *from; 
+/* ------------------------------------------------------------------ */
+int uftdlmsg(char *user, char *file, char *from,char *type) 
   { 
     static char *eyectchr = "uftdlmsg()"; 
  
@@ -49,4 +48,3 @@ int uftdlmsg(user,file,from,type)
     return 0; 
   } 
  
-

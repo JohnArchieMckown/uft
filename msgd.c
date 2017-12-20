@@ -18,9 +18,7 @@
 #include	"uft.h" 
  
 /* ------------------------------------------------------------------ */ 
-int main(argc,argv) 
-  int     argc; 
-  char   *argv[]; 
+int main(int argc, char *argv[]) 
   { 
     char	buff[BUFSIZ], temp[BUFSIZ], idnt[BUFSIZ]; 
     char       *p, *user, *term, *text, *from, *ftty, 
@@ -171,5 +169,4 @@ int main(argc,argv)
     /*  get outta here  */ 
     return 0; 
   } 
- 
 

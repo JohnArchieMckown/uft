@@ -12,7 +12,9 @@
  *    See also: putline.c, netline.c 
  * 
  */ 
- 
+
+#include "uft.h"
+
 #ifdef		__OPEN_VM 
 #ifndef 	OECS 
 #define 	OECS 
@@ -20,9 +22,7 @@
 #endif 
  
 /* ------------------------------------------------------------------ */ 
-int getline(s,b) 
-  int     s; 
-  char   *b; 
+int getline(int s, char *b) 
   { 
     char       *p; 
     int 	i; 
@@ -73,5 +73,4 @@ int getline(s,b)
  
     return i; 
   } 
- 
 

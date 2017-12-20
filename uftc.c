@@ -24,9 +24,7 @@ int             uftv;           /*  protocol level  (1 or 2)  */
 int             uftcflag;
 
 /* ------------------------------------------------------------------ */
-int main(argc,argv)
-  int     argc;
-  char   *argv[];
+int main(int argc, char *argv[])
   {
     int         i, fd0, s, size, r, copy;
     char        temp[256], targ[256], b[BUFSIZ],

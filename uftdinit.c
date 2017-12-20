@@ -8,7 +8,7 @@
  
 #include	"uft.h" 
  
-void uftdinit() 
+void uftdinit(void) 
     {   
 	uftfile0.cfd = 0;	/*  control file  */ 
 	uftfile0.dfd = 0;	/*  data file  */ 
@@ -50,6 +50,5 @@ void uftdinit()
 	uftfile0.title[0] = 0x00; 
  
 	return; 
-    }   
- 
+    }
 

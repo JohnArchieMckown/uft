@@ -8,11 +8,12 @@
  */ 
  
 #include	<pwd.h> 
+#include	"uft.h"
  
 /* ------------------------------------------------------------- HOMEDIR
  *  Try to determine the home directory from the system. 
  *  If that fails,  return a best guess. 
- */ 
+ */
 char *homedir ( char *u ) 
   { 
     /*  variables for this function  */ 
@@ -32,5 +33,4 @@ char *homedir ( char *u )
     *p = 0x00; 
     return failsafe; 
   } 
- 
 

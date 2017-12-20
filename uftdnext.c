@@ -14,7 +14,7 @@
  
 /* ------------------------------------------------------------ UFTDNEXT 
  */ 
-int uftdnext() 
+int uftdnext(void) 
   { 
     int 	i, n, n0, sf; 
     char	temp[256], *seq; 

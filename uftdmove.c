@@ -9,8 +9,7 @@
  
 /* ------------------------------------------------------------ UFTDMOVE 
  */ 
-int uftdmove(a,b) 
-  int    a, b; 
+int uftdmove(int a, int b) 
   { 
     int 	i, j; 
     char	q[4096];

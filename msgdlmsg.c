@@ -14,8 +14,7 @@
 #include	"uft.h" 
  
 /* ------------------------------------------------------------------ */ 
-int msgdlmsg(user,host,from,text) 
-  char   *user, *host, *from, *text; 
+int msgdlmsg(char *user, char *host, char *from, char *text) 
   { 
     static char *eyecatch = "msgdlmsg()"; 
  
@@ -28,5 +27,4 @@ int msgdlmsg(user,host,from,text)
  
     return 0; 
   } 
- 
 

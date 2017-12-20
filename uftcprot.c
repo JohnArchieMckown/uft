@@ -8,6 +8,7 @@
  
 #include        <sys/types.h>
 #include        <sys/stat.h>
+#include	"uft.h"
  
 /* ------------------------------------------------------------ UFTCPROT 
  */ 
@@ -55,6 +56,5 @@ char *uftcprot(mode_t prot)
     /*  terminate the string and return  */ 
     *p++ = 0x00; 
     return buffer; 
-  } 
- 
+  }
 

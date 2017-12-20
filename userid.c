@@ -13,12 +13,13 @@
 #include	<pwd.h> 
 #include	<sys/types.h> 
 #endif 
-#include	<stdlib.h> 
+#include	<stdlib.h>
+#include	"uft.h"
  
 /* -------------------------------------------------------------- USERID 
  *  return login name from the best of several usable sources 
  */ 
-char *userid() 
+char *userid(void) 
   { 
     char       *u; 
     extern  char       *getenv(); 

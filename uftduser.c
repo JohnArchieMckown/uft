@@ -21,8 +21,7 @@ extern	int	errno;
  *  Move into the specified user's UFT sub-dir,  possibly creating it,
  *  and try to  seteuid()  to that user too.
  */
-int uftduser(user)
-  char   *user;
+int uftduser(char *user)
   {
     int 	i, uuid;
     struct passwd *pwdent;

@@ -18,8 +18,7 @@ int             uftcflag;
 /* ------------------------------------------------------------ MSGWRITE 
  *  Try stock UNIX 'write' command if local user. 
  */ 
-int msgwrite(user,text) 
-  char   *user, *text; 
+int msgwrite(char *user, char *text) 
   { 
     char	temp[256]; 
     (void) sprintf(temp,"echo \"%s\" | write %s",text,user); 
@@ -28,18 +27,16 @@ int msgwrite(user,text)
  
 /* ------------------------------------------------------------ MSGSMTPS 
  *  Try SMTP "send" command.  (not always implemented) 
- */ 
-int msgsmtps(user,text) 
-  char   *user, *text; 
+ */
+int msgsmtps(char *user, char *text) 
   { 
     return -1; 
   } 
  
 /* ------------------------------------------------------------ MSGSMTPM 
  *  Try SMTP mail.  (advantage is direct -vs- queued) 
- */ 
-int msgsmtpm(user,text) 
-  char   *user, *text; 
+ */
+int msgsmtpm(char *user, char *text) 
   { 
     return -1; 
   } 
@@ -47,16 +44,14 @@ int msgsmtpm(user,text)
 /* ------------------------------------------------------------- MSGMAIL 
  *  Try queued mail (sendmail) as a last resort. 
  */ 
-int msgmail(user,text) 
-  char   *user, *text; 
+int msgmail(char *user, char *text) 
   { 
     return -1; 
   } 
  
 /* -------------------------------------------------------------- DOTELL 
- */ 
-int dotell(user,text) 
-  char   *user, *text; 
+ */
+int dotell(char *user,char *text) 
   { 
     if (msgcmsp(user,text) && 
 	msgcuftd(user,text) && 
@@ -69,9 +64,7 @@ int dotell(user,text)
   } 
  
 /* ------------------------------------------------------------------ */ 
-int main(argc,argv) 
-  int     argc; 
-  char   *argv[]; 
+int main(int argc, char *argv[]) 
   { 
     int     i, j, k; 
     char    msgbuf[4096], *arg0; 
@@ -127,5 +120,4 @@ int main(argc,argv)
       } 
     return 0; 
   } 
- 
 

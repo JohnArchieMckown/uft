@@ -22,6 +22,7 @@
 #include        <sys/socket.h>
 #include        <stdio.h>
 #include        <netdb.h>
+#include	"uft.h"
 
 #define 	TCPSMALL	256
 #define 	TCPLARGE	4096
@@ -48,8 +49,7 @@ char	tcp_umsg[TCPSMALL];
  *  Tries to mimick  open(path,flags[,mode])
  *  but connects to a TCP port,  not a local file.
  */
-int tcpopen(host,flag,mode)
-  char  *host;  int  flag;  int  mode;
+int tcpopen(char *host, int flag, int mode)
   {
     int         s, i, port, rc, j;
     struct sockaddr name;
@@ -159,15 +159,14 @@ int tcpopen(host,flag,mode)
 /* -------------------------------------------------------------- MXOPEN
  *  Like  tcpopen(),  but connects to a Mail eXchanger IP host.
  */
-int mxopen(host,flag,mode)
+int mxopen(char *host, int flag, intmode)
   {
     return -1;
   }
 
 /* ------------------------------------------------------------ TCPCLOSE
  */
-int tcpclose(fd)
-  int fd;
+int tcpclose(int fd)
   {
     return close(fd);
   }
@@ -180,8 +179,7 @@ int tcpclose(fd)
  *
  *    See also: getline.c, putline.c
  */
-int tcpgets(s,b,l)
-  int  s;  char  *b;  int  l;
+int tcpgets(int s, char *b, intl)
   {
     char       *p;
     int 	i;
@@ -244,9 +242,7 @@ int tcpgets(s,b,l)
  *
  *    See also: getline.c, putline.c
  */
-int tcpputs(s,b)
-  int     s;
-  char   *b;
+int tcpputs(int s, char *b)
   {
     int 	i,  j;
     char	temp[4096];
@@ -278,16 +274,14 @@ int tcpputs(s,b)
 
 /* ------------------------------------------------------------ TCPWRITE
  */
-int tcpwrite(fd,s,n)
-  int fd;  char *s;  int n;
+int tcpwrite(int fd,char *s,int n)
   {
     return write(fd,s,n);
   }
 
 /* ------------------------------------------------------------- TCPREAD
  */
-int tcpread(fd,s,n)
-  int fd;  char *s;  int n;
+int tcpread(int fd, char *s, int n)
   {
     return read(fd,s,n);
   }
@@ -317,8 +311,7 @@ int tcpread(fd,s,n)
 
 #define 	IDENT_PORT	113
 
-int tcpident(sock,buff,size)
-  int  sock;  char  *buff;  int  size;
+int tcpident(int sock, char *buff, int size)
   {
     struct  sockaddr	sadr;
     struct  hostent    *hent;
@@ -505,7 +498,7 @@ int htonz (unsigned char * s)
 /* --------------------------------------------------------------- NTOHZ
  *  Network-to-Host, alpha (Z-string)
  */
-int ntohz (unsigned char * s)
+int ntohz (unsigned char *s)
   {
 #if	'\n' == 0x15
     int i;
@@ -521,7 +514,7 @@ int ntohz (unsigned char * s)
 /* --------------------------------------------------------------- HTONB
  *  Host-to-Network, alpha (block)
  */
-int htonb ( unsigned char * p, unsigned char * q, size_t l )
+int htonb ( unsigned char *p, unsigned char *q, size_t l )
   {
     unsigned char v;
     int 	i, j;
@@ -550,7 +543,7 @@ int htonb ( unsigned char * p, unsigned char * q, size_t l )
 /* --------------------------------------------------------------- NTOHB
  *  Network-to-Host, alpha (block)
  */
-int ntohb ( unsigned char * p, unsigned char * q, size_t l )
+int ntohb ( unsigned char* p, unsigned char* q, size_t l )
   {
     unsigned char v;
     int 	i, j;
@@ -576,5 +569,4 @@ int ntohb ( unsigned char * p, unsigned char * q, size_t l )
 
        int pipe(int filedes[2]);
  */
-
 

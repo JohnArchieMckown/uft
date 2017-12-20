@@ -101,5 +101,4 @@ int msglocal ( char *user , char *text )
                          blocks  until  a  process opens the file 
                          for reading. 
  */ 
- 
 

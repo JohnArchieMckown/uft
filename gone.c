@@ -6,12 +6,11 @@
  */ 
  
 #include	"gone.h" 
+#include	"uft.h"
 #include	<signal.h> 
  
 /* ------------------------------------------------------------------ */ 
-int main(argc,argv) 
-  int     argc; 
-  char   *argv[]; 
+int main(int argc, char *argv[]) 
   { 
     int 	ppid, dpid; 
     extern int	getppid(); 
@@ -41,4 +40,3 @@ int main(argc,argv)
 (void) system("tell troth@ua1vm.ua.edu *GONE Hi!"); 
   } 
  
-

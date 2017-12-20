@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------- ÆCS
+/* ----------------------------------------------------------------- AECS
  * ASCII to EBCDIC and vice-versa code conversion routines.
  * Tables included here are based on ASCII conforming to the ISO8859-1
  * Latin 1 character set and EBCDIC conforming to the IBM Code Page 37
@@ -7,12 +7,12 @@
  */
  
 #include "aecs.h"
+#include "uft.h"
  
 /* ------------------------------------------------------------- CHRATOE
  * Translate an ASCII character into EBCDIC.
  */
-int chratoe(c)
-  int     c;
+int chratoe( int c)
   {
     return (ebc8859[c]);
   }
@@ -20,8 +20,7 @@ int chratoe(c)
 /* ------------------------------------------------------------- STRATOE
  * Translate an ASCII string into EBCDIC in place. Return length.
  */
-int stratoe(string)
-  unsigned char *string;
+int stratoe(unsigned char *string)
   {
     int i;
  
@@ -32,8 +31,7 @@ int stratoe(string)
 /* ------------------------------------------------------------- CHRETOA
  * Translate an EBCDIC character into ASCII.
  */
-int chretoa(c)
-  int     c;
+int chretoa( int c)
   {
     return (asc8859[c]);
   }
@@ -41,11 +39,11 @@ int chretoa(c)
 /* ------------------------------------------------------------- STRETOA
  * Translate an EBCDIC string into ASCII in place. Return length.
  */
-int stretoa(string)
-  unsigned char *string;
+int stretoa(unsigned char *string)
   {
     int i;
  
     for (i = 0; (string[i] = asc8859[string[i]]) != 0x00; i++);
     return (i);
   }
+

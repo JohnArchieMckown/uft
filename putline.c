@@ -9,9 +9,7 @@
  *    See also: getline.c, netline.c 
  * 
  */ 
-int putline(s,b) 
-  int     s; 
-  char   *b; 
+int putline(int s, char *b)
   { 
     int 	i,  j; 
     char	temp[4096]; 
@@ -25,4 +23,4 @@ int putline(s,b)
     if (j != i+1) return -1; 
     return i; 
   } 
- 
+

@@ -6,10 +6,10 @@
  *  of bytes are acquired.   This is how we explicitly discard 
  *  any record structure that UNIX may have learned about. 
  */ 
-int readspan(s,b,c) 
-  int     s;	/*  input stream FD number  */ 
-  char   *b;	/*  buffer pointer  */ 
-  int     c;	/*  count (requested number of bytes)  */ 
+int readspan(int s, char *b, int c) 
+/*  int     s input stream FD number             */ 
+/*  char   *b buffer pointer                     */ 
+/*  int     c count (requested number of bytes)  */ 
   { 
     int 	i,  j; 
  
@@ -22,6 +22,5 @@ int readspan(s,b,c)
 	c = c - i; 
       } 
     return j; 
-  } 
- 
+  }
 

@@ -16,7 +16,7 @@
  
 static char *b64 = UFT_B64_CODE;	/*  Base 64 "digits" table  */ 
  
-int main() { (void) uftcmime(0,1); return 0; } 
+int main(int argc, char *argv[]) { (void) uftcmime(0,1); return 0; } 
  
 /* ------------------------------------------------------------------ */ 
 int uftcmime(s,r) 
@@ -122,8 +122,7 @@ int uftcmime(s,r)
  */ 
  
 /* ------------------------------------------------------------------ */ 
-int uftcb64d(s,b,n) 
-  int s;  char *b;  int n; 
+int uftcb64d(int s, char *b, int n) 
   { 
     int         bc;		/*  byte count  */ 
     char        line[256];	/*  record buffer  */ 
@@ -187,4 +186,3 @@ Date line should read like
  
  */ 
  
-
