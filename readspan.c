@@ -5,22 +5,22 @@
  *  as many  read()s  as needed until the requested number 
  *  of bytes are acquired.   This is how we explicitly discard 
  *  any record structure that UNIX may have learned about. 
- */ 
-int readspan(int s, char *b, int c) 
-/*  int     s input stream FD number             */ 
-/*  char   *b buffer pointer                     */ 
-/*  int     c count (requested number of bytes)  */ 
-  { 
-    int 	i,  j; 
- 
-    for (j = 0; c > 0; ) 
-      { 
-	i = read(s,&b[j],c); 
-	if (i < 0) return i; 
-	if (i < 1) break; 
-	j = j + i; 
-	c = c - i; 
-      } 
-    return j; 
-  }
+ */
+int readspan(int s, char *b, int c)
+/*  int     s input stream FD number             */
+/*  char   *b buffer pointer                     */
+/*  int     c count (requested number of bytes)  */
+{
+    int i, j;
 
+    for (j = 0; c > 0;) {
+	i = read(s, &b[j], c);
+	if (i < 0)
+	    return i;
+	if (i < 1)
+	    break;
+	j = j + i;
+	c = c - i;
+    }
+    return j;
+}

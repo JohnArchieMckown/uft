@@ -5,15 +5,12 @@
 
 
 
-void openmsg 
-/* ( char *ident, int option, int  facility) */ 
-
+void openmsg
+/* ( char *ident, int option, int  facility) */
 /* 
 void syslog( int priority, char *format, ...)
- */ 
-
-void closemsg( void )
-
+ */
+ void closemsg(void)
 
 
 
@@ -36,6 +33,4 @@ void closemsg( void )
 
 
 
-Linux			   15 Feb 1994				3
-
-
+ Linux 15 Feb 1994 3

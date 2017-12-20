@@ -27,9 +27,9 @@
 #define 	TCPSMALL	256
 #define 	TCPLARGE	4096
 
-int	tcp_ubuf[TCPLARGE];
-int	tcp_uoff, tcp_uend;
-char	tcp_umsg[TCPSMALL];
+int tcp_ubuf[TCPLARGE];
+int tcp_uoff, tcp_uend;
+char tcp_umsg[TCPSMALL];
 
 /* if we're on IBM OpenVM, define OECS */
 #ifdef		__OPEN_VM
@@ -50,35 +50,40 @@ char	tcp_umsg[TCPSMALL];
  *  but connects to a TCP port,  not a local file.
  */
 int tcpopen(char *host, int flag, int mode)
-  {
-    int         s, i, port, rc, j;
+{
+    int s, i, port, rc, j;
     struct sockaddr name;
     struct hostent *hent, myhent;
-    char       *myhental[2], myhenta0[4], myhenta1[4];
-    char	temp[TCPSMALL], *p, *q;
+    char *myhental[2], myhenta0[4], myhenta1[4];
+    char temp[TCPSMALL], *p, *q;
 
     /*  parse host address and port number by colon  */
-    p = host; host = temp; i = 0;
+    p = host;
+    host = temp;
+    i = 0;
     while (i < TCPSMALL && *p != 0x00 && *p != ':')
-	host[i++] = *p++; host[i++] = 0x00;
-    if (*p != ':') port = 0;
-    else
-      {
-	p++; q = p;
+	host[i++] = *p++;
+    host[i++] = 0x00;
+    if (*p != ':')
+	port = 0;
+    else {
+	p++;
+	q = p;
 	while (i < TCPSMALL && *q != 0x00 && *q != ':')
-	    temp[i++] = *q++; temp[i++] = 0x00;
+	    temp[i++] = *q++;
+	temp[i++] = 0x00;
 	port = atoi(p);
-      }
+    }
 
     /*  figure out where to connect  */
     hent = gethostbyname(host);
-    if (hent == NULL)
-      {
+    if (hent == NULL) {
 	/*  netDB lookup failed;  numeric address supplied?  */
 	p = host;
-	if (*p < '0' || '9' < *p) return -1;
+	if (*p < '0' || '9' < *p)
+	    return -1;
 	hent = &myhent;
-	hent->h_addr_list = myhental;		/*  address list  */
+	hent->h_addr_list = myhental;	/*  address list  */
 	hent->h_addr_list[0] = myhenta0;	/*  address 0  */
 	hent->h_addr_list[1] = myhenta1;	/*  address 1  */
 	hent->h_addrtype = AF_INET;
@@ -86,37 +91,47 @@ int tcpopen(char *host, int flag, int mode)
 
 	/*  try to pick-apart the string as dotted decimal  */
 	hent->h_addr_list[0][0] = atoi(p);
-	while (*p != '.' && *p != 0x00) p++; p++;
-	if (*p < '0' || '9' < *p) return -1;
+	while (*p != '.' && *p != 0x00)
+	    p++;
+	p++;
+	if (*p < '0' || '9' < *p)
+	    return -1;
 	hent->h_addr_list[0][1] = atoi(p);
-	while (*p != '.' && *p != 0x00) p++; p++;
-	if (*p < '0' || '9' < *p) return -1;
+	while (*p != '.' && *p != 0x00)
+	    p++;
+	p++;
+	if (*p < '0' || '9' < *p)
+	    return -1;
 	hent->h_addr_list[0][2] = atoi(p);
-	while (*p != '.' && *p != 0x00) p++; p++;
-	if (*p < '0' || '9' < *p) return -1;
+	while (*p != '.' && *p != 0x00)
+	    p++;
+	p++;
+	if (*p < '0' || '9' < *p)
+	    return -1;
 	hent->h_addr_list[0][3] = atoi(p);
 
 	/*  dotted decimal worked!  now terminate the list  */
-	hent->h_addr_list[1][0] = 0;	hent->h_addr_list[1][1] = 0;
-	hent->h_addr_list[1][2] = 0;	hent->h_addr_list[1][3] = 0;
+	hent->h_addr_list[1][0] = 0;
+	hent->h_addr_list[1][1] = 0;
+	hent->h_addr_list[1][2] = 0;
+	hent->h_addr_list[1][3] = 0;
 	/*  better form might be to use NULL pointer?  */
 	hent->h_addr_list[1] = NULL;
 
 	/*  and what else do we need to set?  */
 	hent->h_name = host;
 	/*  should probably call gethostbyaddr()
-	    at this point;  maybe in the next rev  */
-      }
+	   at this point;  maybe in the next rev  */
+    }
 
     /*  gimme a socket  */
-    s = socket(AF_INET,SOCK_STREAM,0);
-    if (s < 0)
-      {
+    s = socket(AF_INET, SOCK_STREAM, 0);
+    if (s < 0) {
 /*
 	(void) perror("socket()");
  */
 	return s;
-      }
+    }
 
     /*  build that structure  */
     name.sa_family = AF_INET;
@@ -124,52 +139,53 @@ int tcpopen(char *host, int flag, int mode)
     name.sa_data[1] = port & 0xFF;
 
     /*  try address one-by-one  */
-    for (i = 0; hent->h_addr_list[i] != NULL; i++)
-      {
+    for (i = 0; hent->h_addr_list[i] != NULL; i++) {
 	/*  any more addresses?  */
-	if (hent->h_addr_list[i] == NULL) break;
-	if (hent->h_addr_list[i][0] == 0x00) break;
+	if (hent->h_addr_list[i] == NULL)
+	    break;
+	if (hent->h_addr_list[i][0] == 0x00)
+	    break;
 
 	/*  fill-in this address to the structure  */
 	for (j = 0; j < hent->h_length; j++)
-	    name.sa_data[j+2] = hent->h_addr_list[i][j];
-	name.sa_data[j+2] = 0x00;	/*  terminate  */
+	    name.sa_data[j + 2] = hent->h_addr_list[i][j];
+	name.sa_data[j + 2] = 0x00;	/*  terminate  */
 
 	/*  note this attempt  */
-	(void) sprintf(tcp_umsg,"trying %d.%d.%d.%d\n",name.sa_data[2],
-		name.sa_data[3],name.sa_data[4],name.sa_data[5]);
+	(void) sprintf(tcp_umsg, "trying %d.%d.%d.%d\n", name.sa_data[2],
+		       name.sa_data[3], name.sa_data[4], name.sa_data[5]);
 
 	/*  can we talk?  */
 	rc = connect(s, &name, 16);
-	if (rc == 0) return s;
-      }
+	if (rc == 0)
+	    return s;
+    }
 
     /*  can't seem to reach this host on this port  :-(  */
     (void) close(s);
-    if (rc < 0)
-      {
+    if (rc < 0) {
 /*
 	(void) perror("connect()");
  */
 	return rc;
-      }
+    }
     return -1;
-  }
+}
 
 /* -------------------------------------------------------------- MXOPEN
  *  Like  tcpopen(),  but connects to a Mail eXchanger IP host.
  */
 int mxopen(char *host, int flag, intmode)
-  {
+{
     return -1;
-  }
+}
 
 /* ------------------------------------------------------------ TCPCLOSE
  */
 int tcpclose(int fd)
-  {
+{
     return close(fd);
-  }
+}
 
 /* ------------------------------------------------------------- TCPGETS
  *   Operation: Reads a CR/LF terminated string from socket s
@@ -180,58 +196,59 @@ int tcpclose(int fd)
  *    See also: getline.c, putline.c
  */
 int tcpgets(int s, char *b, intl)
-  {
-    char       *p;
-    int 	i;
+{
+    char *p;
+    int i;
 
 #ifdef	OECS
-    char	snl;
+    char snl;
     snl = '\n';
 #endif
 
     p = b;
-    for (i = 0; i < l; i++)
-      {
-	if (read(s,p,1) != 1)		/*  get a byte  */
-	if (read(s,p,1) != 1) return -1;	/*  try again  */
-	switch (*p)
-	  {
+    for (i = 0; i < l; i++) {
+	if (read(s, p, 1) != 1)	/*  get a byte  */
+	    if (read(s, p, 1) != 1)
+		return -1;	/*  try again  */
+	switch (*p) {
 #ifdef	OECS
-	    case 0x0A:		/*  found an ASCII newline  */
-		*p = 0x00;	/*  terminate the string  */
-		/*  on an EBCDIC system?  */
-		if (snl != 0x0A) (void) stratoe(b);
-		break;
-	    case 0x15:		/*  found an EBCDIC newline  */
-		*p = 0x00;	/*  terminate the string  */
-		/*  on an ASCII system?  */
-		if (snl != 0x15) (void) stretoa(b);
-		break;
+	case 0x0A:		/*  found an ASCII newline  */
+	    *p = 0x00;		/*  terminate the string  */
+	    /*  on an EBCDIC system?  */
+	    if (snl != 0x0A)
+		(void) stratoe(b);
+	    break;
+	case 0x15:		/*  found an EBCDIC newline  */
+	    *p = 0x00;		/*  terminate the string  */
+	    /*  on an ASCII system?  */
+	    if (snl != 0x15)
+		(void) stretoa(b);
+	    break;
 #else
-	    case '\n':		/*  found a generic newline  */
-		*p = 0x00;	/*  terminate the string  */
-		break;
+	case '\n':		/*  found a generic newline  */
+	    *p = 0x00;		/*  terminate the string  */
+	    break;
 #endif
-	    default:
-		break;
-	  }
-	if (*p == 0x00) break;		/*  NULL terminates  */
-	p++;				/*  increment pointer  */
-      }
-    *p = 0x00;		/*  NULL terminate,  even if NULL  */
+	default:
+	    break;
+	}
+	if (*p == 0x00)
+	    break;		/*  NULL terminates  */
+	p++;			/*  increment pointer  */
+    }
+    *p = 0x00;			/*  NULL terminate,  even if NULL  */
 
-    i = p - b;		/*  calculate the length  */
-    if (i > 0 && b[i-1] == '\r')	/*  trailing CR?  */
-      {
-	i = i - 1;	/*  shorten length by one  */
-	p--;		/*  backspace  */
-	*p = 0x00;	/*  remove trailing CR  */
-      }
+    i = p - b;			/*  calculate the length  */
+    if (i > 0 && b[i - 1] == '\r') {	/*  trailing CR?  */
+	i = i - 1;		/*  shorten length by one  */
+	p--;			/*  backspace  */
+	*p = 0x00;		/*  remove trailing CR  */
+    }
 
     tcp_uoff = 0;
     tcp_uend = 0;
     return i;
-  }
+}
 
 /* ------------------------------------------------------------- TCPPUTS
  *   Operation: Writes the NULL terminated string from buffer b
@@ -243,48 +260,51 @@ int tcpgets(int s, char *b, intl)
  *    See also: getline.c, putline.c
  */
 int tcpputs(int s, char *b)
-  {
-    int 	i,  j;
-    char	temp[4096];
+{
+    int i, j;
+    char temp[4096];
 
 #ifdef	OECS
-    char	snl;
+    char snl;
     snl = '\n';
 #endif
 
     /*  copy to buffer because we'll modify slightly  */
-    for (i = 0; b[i] != 0x00 && i < 4094; i++) temp[i] = b[i];
+    for (i = 0; b[i] != 0x00 && i < 4094; i++)
+	temp[i] = b[i];
     temp[i] = 0x00;
 #ifdef	OECS
     /*  on an EBCDIC system?  */
-    if (snl == 0x15) (void) stretoa(temp);
-    temp[i+0] = 0x0D;
-    temp[i+1] = 0x0A;
+    if (snl == 0x15)
+	(void) stretoa(temp);
+    temp[i + 0] = 0x0D;
+    temp[i + 1] = 0x0A;
 #else
-    temp[i+0] = '\r';
-    temp[i+1] = '\n';
+    temp[i + 0] = '\r';
+    temp[i + 1] = '\n';
 #endif
 
     /*  write entire string, WITH line interpolation,  at once  */
-    j = write(s,temp,i+2);
+    j = write(s, temp, i + 2);
 
-    if (j != i+2) return -1;
+    if (j != i + 2)
+	return -1;
     return i;
-  }
+}
 
 /* ------------------------------------------------------------ TCPWRITE
  */
-int tcpwrite(int fd,char *s,int n)
-  {
-    return write(fd,s,n);
-  }
+int tcpwrite(int fd, char *s, int n)
+{
+    return write(fd, s, n);
+}
 
 /* ------------------------------------------------------------- TCPREAD
  */
 int tcpread(int fd, char *s, int n)
-  {
-    return read(fd,s,n);
-  }
+{
+    return read(fd, s, n);
+}
 
 /* ------------------------------------------------------------ TCPIDENT
  *
@@ -312,16 +332,16 @@ int tcpread(int fd, char *s, int n)
 #define 	IDENT_PORT	113
 
 int tcpident(int sock, char *buff, int size)
-  {
-    struct  sockaddr	sadr;
-    struct  hostent    *hent;
-    int 	i, rc, slen, styp, soff;
-    char	temp[TEMP_BSZ];
-    char	hadd[16];	/*  is that enough?  */
-    char	host[HOST_BSZ];
-    char	user[USER_BSZ];
-    int 	plcl, prmt;
-    char       *p;
+{
+    struct sockaddr sadr;
+    struct hostent *hent;
+    int i, rc, slen, styp, soff;
+    char temp[TEMP_BSZ];
+    char hadd[16];		/*  is that enough?  */
+    char host[HOST_BSZ];
+    char user[USER_BSZ];
+    int plcl, prmt;
+    char *p;
 
 /*
 (void) netline(2,">>>>>>>>");
@@ -333,30 +353,33 @@ int tcpident(int sock, char *buff, int size)
 
     /*  first,  tell me about this end  */
     slen = sizeof(sadr);
-    rc = getsockname(sock,&sadr,&slen);
-    if (rc != 0)
-      {
+    rc = getsockname(sock, &sadr, &slen);
+    if (rc != 0) {
 /*
 	(void) perror("getsockname()");
  */
-	if (rc < 0) return rc;
-		else return -1;
-      }
+	if (rc < 0)
+	    return rc;
+	else
+	    return -1;
+    }
     styp = sadr.sa_family;
 
     /*  where's the offset into the address?  */
-    switch (styp)
-      {
-	case AF_INET:	soff = 2;   slen = 4;
-			break;
-	default:	soff = 2;
-			break;
-      }
+    switch (styp) {
+    case AF_INET:
+	soff = 2;
+	slen = 4;
+	break;
+    default:
+	soff = 2;
+	break;
+    }
 
     /*  and snag that port number  */
     plcl = 0;
     for (i = 0; i < soff; i++)
-        plcl = (plcl << 8) + (sadr.sa_data[i] & 0xFF);
+	plcl = (plcl << 8) + (sadr.sa_data[i] & 0xFF);
 
 /*
 (void) sprintf(temp,"PORT=%d (mine)",plcl);
@@ -365,29 +388,32 @@ int tcpident(int sock, char *buff, int size)
 
     /*  what's the host on the other end?  */
     slen = sizeof(sadr);
-    rc = getpeername(sock,&sadr,&slen);
-    if (rc != 0)
-      {
+    rc = getpeername(sock, &sadr, &slen);
+    if (rc != 0) {
 /*
 	(void) perror("getpeername()");
  */
-	if (rc < 0) return rc;
-		else return -1;
-      }
+	if (rc < 0)
+	    return rc;
+	else
+	    return -1;
+    }
     styp = sadr.sa_family;
 
     /*  where's the offset into the address?  */
-    switch (styp)
-      {
-	case AF_INET:	soff = 2;   slen = 4;
-			break;
-	default:	soff = 2;
-			break;
-      }
+    switch (styp) {
+    case AF_INET:
+	soff = 2;
+	slen = 4;
+	break;
+    default:
+	soff = 2;
+	break;
+    }
 
     /*  now copy the address  */
     for (i = 0; i < slen; i++)
-	hadd[i] = sadr.sa_data[i+soff];
+	hadd[i] = sadr.sa_data[i + soff];
 
     /*  and snag that port number  */
     prmt = 0;
@@ -399,17 +425,18 @@ int tcpident(int sock, char *buff, int size)
 (void) netline(2,temp);
  */
     /*  what host is at that address?  */
-    hent = gethostbyaddr(hadd,slen,styp);
-    if (hent == NULL)
-      {
+    hent = gethostbyaddr(hadd, slen, styp);
+    if (hent == NULL) {
 /*
 	(void) perror("gethostbyaddr()");
  */
-	if (rc < 0) return rc;
-		else return -1;
-      }
-    strncpy(host,hent->h_name,HOST_BSZ);    /*  keep it  */
-    host[HOST_BSZ-1] = 0x00;	/*  safety net  */
+	if (rc < 0)
+	    return rc;
+	else
+	    return -1;
+    }
+    strncpy(host, hent->h_name, HOST_BSZ);	/*  keep it  */
+    host[HOST_BSZ - 1] = 0x00;	/*  safety net  */
 
 /*
 (void) sprintf(temp,"HOST=%s (yours)",host);
@@ -417,41 +444,44 @@ int tcpident(int sock, char *buff, int size)
  */
 
     /*  try a little IDENT client/server action  */
-    (void) sprintf(temp,"%s:%d",host,IDENT_PORT);
-    sock = tcpopen(temp,0,0);
-    if (sock >= 0)
-      {
+    (void) sprintf(temp, "%s:%d", host, IDENT_PORT);
+    sock = tcpopen(temp, 0, 0);
+    if (sock >= 0) {
 	/*  build and send the IDENT request  */
-	(void) sprintf(temp,"%d , %d",prmt,plcl);
-	(void) tcpputs(sock,temp);
-	(void) tcpgets(sock,temp,TEMP_BSZ);
+	(void) sprintf(temp, "%d , %d", prmt, plcl);
+	(void) tcpputs(sock, temp);
+	(void) tcpgets(sock, temp, TEMP_BSZ);
 
 	for (p = temp; *p != 0x00 && *p != ':'; p++);
-	if (*p == ':')
-	  {
+	if (*p == ':') {
 	    p++;
-	    while (*p != 0x00 && *p <= ' ') p++;
+	    while (*p != 0x00 && *p <= ' ')
+		p++;
 /*  (void) netline(2,p);  */
-	    if (strncmp(p,"USERID",6) == 0)
-	      {
-		while (*p != 0x00 && *p != ':') p++;
-		if (*p == ':') p++;
-		while (*p != 0x00 && *p != ':') p++;
-		if (*p == ':') p++;
-		while (*p != 0x00 && *p <= ' ') p++;
-		(void) strncpy(user,p,USER_BSZ);
-	      }
-	  }
-      }
+	    if (strncmp(p, "USERID", 6) == 0) {
+		while (*p != 0x00 && *p != ':')
+		    p++;
+		if (*p == ':')
+		    p++;
+		while (*p != 0x00 && *p != ':')
+		    p++;
+		if (*p == ':')
+		    p++;
+		while (*p != 0x00 && *p <= ' ')
+		    p++;
+		(void) strncpy(user, p, USER_BSZ);
+	    }
+	}
+    }
 
-    (void) sprintf(buff,"%s@%s",user,host);
+    (void) sprintf(buff, "%s@%s", user, host);
 
 /*
 (void) netline(2,"<<<<<<<<");
  */
 
     return 0;
-  }
+}
 
 /* include the following code only if supporting IBM OpenEdition */
 #ifdef		OECS
@@ -460,32 +490,32 @@ int tcpident(int sock, char *buff, int size)
 /* --------------------------------------------------------------- HTONC
  *  Host-to-Network, alpha (character)
  */
-unsigned char htonc (unsigned char c)
-  {
+unsigned char htonc(unsigned char c)
+{
 #if	'\n' == 0x15
     return (asc8859[c]);
 #else
     return c;
 #endif
-  }
+}
 
 /* --------------------------------------------------------------- NTOHC
  *  Network-to-Host, alpha (character)
  */
-unsigned char ntohc (unsigned char c)
-  {
+unsigned char ntohc(unsigned char c)
+{
 #if	'\n' == 0x15
     return (ebc8859[c]);
 #else
     return c;
 #endif
-  }
+}
 
 /* --------------------------------------------------------------- HTONZ
  *  Host-to-Network, alpha (Z-string)
  */
-int htonz (unsigned char * s)
-  {
+int htonz(unsigned char *s)
+{
 #if	'\n' == 0x15
     int i;
     for (i = 0; (s[i] = asc8859[s[i]]) != 0x00; i++);
@@ -493,13 +523,13 @@ int htonz (unsigned char * s)
 #else
     return strlen(s);
 #endif
-  }
+}
 
 /* --------------------------------------------------------------- NTOHZ
  *  Network-to-Host, alpha (Z-string)
  */
-int ntohz (unsigned char *s)
-  {
+int ntohz(unsigned char *s)
+{
 #if	'\n' == 0x15
     int i;
     for (i = 0; (s[i] = ebc8859[s[i]]) != 0x00; i++);
@@ -507,61 +537,60 @@ int ntohz (unsigned char *s)
 #else
     return strlen(s);
 #endif
-  }
+}
 
 #endif
 
 /* --------------------------------------------------------------- HTONB
  *  Host-to-Network, alpha (block)
  */
-int htonb ( unsigned char *p, unsigned char *q, size_t l )
-  {
+int htonb(unsigned char *p, unsigned char *q, size_t l)
+{
     unsigned char v;
-    int 	i, j;
+    int i, j;
 
     v = 0x00;
     j = 0;
-    for (i = 0; i < l; i++)
-      {
+    for (i = 0; i < l; i++) {
 #if	'\n' == 0x15
-    if (q[i] == '\n')
-      {
-        if (v != '\r') p[j++] = 0x0D;
-        p[j++] = 0x0A;
-      } else
-    p[j++] = asc8859[q[i]];
+	if (q[i] == '\n') {
+	    if (v != '\r')
+		p[j++] = 0x0D;
+	    p[j++] = 0x0A;
+	} else
+	    p[j++] = asc8859[q[i]];
 #else
 	if (q[i] == '\n' && v != '\r')
-		p[j++] = '\r';
+	    p[j++] = '\r';
 	p[j++] = q[i];
 #endif
 	v = q[i];
-      }
+    }
     return j;
-  }
+}
 
 /* --------------------------------------------------------------- NTOHB
  *  Network-to-Host, alpha (block)
  */
-int ntohb ( unsigned char* p, unsigned char* q, size_t l )
-  {
+int ntohb(unsigned char *p, unsigned char *q, size_t l)
+{
     unsigned char v;
-    int 	i, j;
+    int i, j;
 
     v = 0x00;
     j = 0;
-    for (i = 0; i < l; i++)
-      {
-	if (q[i] == 0x0A && v != 0x0D) j--;
+    for (i = 0; i < l; i++) {
+	if (q[i] == 0x0A && v != 0x0D)
+	    j--;
 #if	'\n' == 0x15
 	p[j++] = ebc8859[q[i]];
 #else
 	p[j++] = q[i];
 #endif
 	v = q[i];
-      }
+    }
     return j;
-  }
+}
 
 
 /*
@@ -569,4 +598,3 @@ int ntohb ( unsigned char* p, unsigned char* q, size_t l )
 
        int pipe(int filedes[2]);
  */
-

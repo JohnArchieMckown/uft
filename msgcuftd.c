@@ -18,39 +18,45 @@
  *  UFT protocol, but may be a feature of some UFTD servers.
  */
 int msgcuftd(char *user, char *text)
-  {
-    char	temp[256], ubuf[64], *host;
-    int 	port, rc, s;
+{
+    char temp[256], ubuf[64], *host;
+    int port, rc, s;
 
     /*  parse  */
-    host = user;	user = ubuf;
-    while (*host != '@' && *host != 0x00) *user++ = *host++;
-    if (*host == '@') host++;  *user = 0x00;  user = ubuf;
-    if (*host == 0x00) host = MSG_UFT_HOST;
+    host = user;
+    user = ubuf;
+    while (*host != '@' && *host != 0x00)
+	*user++ = *host++;
+    if (*host == '@')
+	host++;
+    *user = 0x00;
+    user = ubuf;
+    if (*host == 0x00)
+	host = MSG_UFT_HOST;
     port = MSG_UFT_PORT;
 
     /*  try to contact the UFT server  */
     errno = 0;
-    (void) sprintf(temp,"%s:%d",host,port);
-    s = tcpopen(temp,0,0);
-    if (s < 0) return s;
+    (void) sprintf(temp, "%s:%d", host, port);
+    s = tcpopen(temp, 0, 0);
+    if (s < 0)
+	return s;
 
     /*  wait on a UFT/1 or UFT/2 herald  */
-    (void) tcpgets(s,temp,sizeof(temp));
+    (void) tcpgets(s, temp, sizeof(temp));
 
     /*  now try a UFT "MSG" command,  if available  */
-    (void) sprintf(temp,"MSG %s %s",user,text);
-    (void) tcpputs(s,temp);
+    (void) sprintf(temp, "MSG %s %s", user, text);
+    (void) tcpputs(s, temp);
 
     /*  wait for ACK/NAK  */
-    rc = uftcwack(s,temp,sizeof(temp));
+    rc = uftcwack(s, temp, sizeof(temp));
 
     /*  say goodbye politely  */
-    (void) tcpputs(s,"QUIT");
-    (void) uftcwack(s,temp,sizeof(temp));
+    (void) tcpputs(s, "QUIT");
+    (void) uftcwack(s, temp, sizeof(temp));
 
     /*  return cleanly  */
     (void) close(s);
     return rc;
-  }
-
+}

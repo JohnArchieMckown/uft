@@ -13,7 +13,7 @@
 
 #include	<pwd.h>
 #include	<errno.h>
-extern	int	errno;
+extern int errno;
 #include	<unistd.h>
 #include	"uft.h"
 
@@ -22,15 +22,15 @@ extern	int	errno;
  *  and try to  seteuid()  to that user too.
  */
 int uftduser(char *user)
-  {
-    int 	i, uuid;
+{
+    int i, uuid;
     struct passwd *pwdent;
 
     /* we'll try to make this non-zero later */
     uuid = 0;
 
     /* pseudo-users are supported;  that is,  one can 'sendfile'
-	to a user that doesn't exist iff the sub-directory exists */
+       to a user that doesn't exist iff the sub-directory exists */
     pwdent = getpwnam(user);
 
     /* does the directory exist already? */
@@ -38,36 +38,37 @@ int uftduser(char *user)
 
     /* if we are avoiding metadata leakage then try "anonymous" */
 #ifdef          UFT_ANONYMOUS
-    if (i < 0 && errno == ENOENT) i = chdir("anonymous");
+    if (i < 0 && errno == ENOENT)
+	i = chdir("anonymous");
 #endif
 
     /* some error;  should we create a sub-dir? */
-    if (i < 0 && errno == ENOENT)
-      {
-	if (pwdent == NULL) return -1;
-	if (mkdir(user,0770) < 0) return i;
+    if (i < 0 && errno == ENOENT) {
+	if (pwdent == NULL)
+	    return -1;
+	if (mkdir(user, 0770) < 0)
+	    return i;
 	if (pwdent != NULL)
-	(void) chown(user,pwdent->pw_uid,UFT_GID);
+	    (void) chown(user, pwdent->pw_uid, UFT_GID);
 	i = chdir(user);
-      }
+    }
 
     /* errors persist!  bail out! */
-    if (i < 0) return i;
+    if (i < 0)
+	return i;
 
     /* if the user exists,  try chowning the SEQuence file(s)
-	and the directory,  if that works,  set effective UID */
-    if (pwdent != NULL)
-      {
+       and the directory,  if that works,  set effective UID */
+    if (pwdent != NULL) {
 	uuid = pwdent->pw_uid;
-	(void) chown(UFT_SEQFILE,uuid,UFT_GID);
-	(void) chmod(UFT_SEQFILE,0660);
-	(void) chown(UFT_SEQFILE_ALT,uuid,UFT_GID);
-	(void) chmod(UFT_SEQFILE_ALT,0660);
-	if (chown(".",uuid,UFT_GID) == 0) (void) seteuid(uuid);
-      }
+	(void) chown(UFT_SEQFILE, uuid, UFT_GID);
+	(void) chmod(UFT_SEQFILE, 0660);
+	(void) chown(UFT_SEQFILE_ALT, uuid, UFT_GID);
+	(void) chmod(UFT_SEQFILE_ALT, 0660);
+	if (chown(".", uuid, UFT_GID) == 0)
+	    (void) seteuid(uuid);
+    }
 
     /* return the uid (non-negative) on success */
     return uuid;
-  }
-
-
+}

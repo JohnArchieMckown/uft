@@ -8,19 +8,20 @@
  * 
  *    See also: getline.c, netline.c 
  * 
- */ 
+ */
 int putline(int s, char *b)
-  { 
-    int 	i,  j; 
-    char	temp[4096]; 
- 
-/*  i = strlen(b);  */ 
-    for (i = 0; b[i] != 0x00; i++) temp[i] = b[i]; 
-    temp[i] = '\n'; 
-    j = write(s,temp,i+1); 
-/*  b[i] = 0x00;  */ 
- 
-    if (j != i+1) return -1; 
-    return i; 
-  } 
+{
+    int i, j;
+    char temp[4096];
 
+/*  i = strlen(b);  */
+    for (i = 0; b[i] != 0x00; i++)
+	temp[i] = b[i];
+    temp[i] = '\n';
+    j = write(s, temp, i + 1);
+/*  b[i] = 0x00;  */
+
+    if (j != i + 1)
+	return -1;
+    return i;
+}

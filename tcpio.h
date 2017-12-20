@@ -16,40 +16,35 @@
  *		(above akin to htons(), ntohs(), htonl() and ntohl())
  *
  */
- 
+
 #define 	TCPSMALL	256
 #define 	TCPLARGE	4096
- 
+
 /* if we're on IBM OpenVM, define OECS */
 #ifdef		__OPEN_VM
 #ifndef 	OECS
 #define 	OECS
 #endif
 #endif
- 
+
 /* if we're on IBM OpenEdition, define OECS */
 #ifdef		_OE_SOCKETS
 #ifndef 	OECS
 #define 	OECS
 #endif
 #endif
- 
-int tcpopen(char*,int,int);
-int mxopen(char*,int,int);
+
+int tcpopen(char *, int, int);
+int mxopen(char *, int, int);
 int tcpclose(int);
-int tcpgets(int,char*,int);
-int tcpputs(int,char*);
-int tcpwrite(int,char*,int);
-int tcpread(int,char*,int);
-int tcpident(int,char*,int);
+int tcpgets(int, char *, int);
+int tcpputs(int, char *);
+int tcpwrite(int, char *, int);
+int tcpread(int, char *, int);
+int tcpident(int, char *, int);
 unsigned char htonc(unsigned char);
 unsigned char ntohc(unsigned char);
 int htonz(unsigned char *);
 int ntohz(unsigned char *);
-int htonb(unsigned char *,unsigned char *,size_t);
-int ntohb(unsigned char *,unsigned char *,size_t);
-
-
-
-
-
+int htonb(unsigned char *, unsigned char *, size_t);
+int ntohb(unsigned char *, unsigned char *, size_t);

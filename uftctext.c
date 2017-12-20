@@ -8,24 +8,26 @@
  *	  Date: 1995-Apr-13
  *
  */
- 
+
 #include	"uft.h"
- 
+
 /* ------------------------------------------------------------ UFTCTEXT
  */
 int uftctext(int s, char *b, int l)
-  {
-    char	t[BUFSIZ] /* , *p */ ;
-    int 	i, j, k;
- 
+{
+    char t[BUFSIZ] /* , *p */ ;
+    int i, j, k;
+
     k = l / 2;
-    if (k > BUFSIZ) k = BUFSIZ;
- 
-    j = read(s,t,k);
+    if (k > BUFSIZ)
+	k = BUFSIZ;
+
+    j = read(s, t, k);
     if (j < 1)
-    j = read(s,t,k);
-    if (j < 0) return i;
- 
+	j = read(s, t, k);
+    if (j < 0)
+	return i;
+
 /*  OLD CODE  **
     p = t;
     for (i = 0; i < j; i++)
@@ -38,8 +40,7 @@ int uftctext(int s, char *b, int l)
 	b[i] = *p++;
       }
  */
-    j = htonb(b,t,j);
- 
+    j = htonb(b, t, j);
+
     return j;
-  }
- 
+}

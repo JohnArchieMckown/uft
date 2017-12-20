@@ -5,18 +5,16 @@
  *	Author: Rick Troth, Houston, Texas, USA (concerto) 
  *	  Date: 1995-Mar-25 (happy b'day GHN) 
  * 
- */ 
- 
-/* ------------------------------------------------------------- UFTDLOG 
- */ 
-int uftdlog(int s, char *b) 
-  { 
-    char	temp[256]; 
- 
-    (void) sprintf(temp,"#*%s",b); 
-    (void) putline(s,temp); 
- 
-    return 0; 
-  } 
- 
+ */
 
+/* ------------------------------------------------------------- UFTDLOG 
+ */
+int uftdlog(int s, char *b)
+{
+    char temp[256];
+
+    (void) sprintf(temp, "#*%s", b);
+    (void) putline(s, temp);
+
+    return 0;
+}

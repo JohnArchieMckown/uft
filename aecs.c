@@ -5,45 +5,44 @@
  * Latin 1 character set (except for three pairs of characters in 037).
  * This C source requires header file AECS.H.
  */
- 
+
 #include "aecs.h"
 #include "uft.h"
- 
+
 /* ------------------------------------------------------------- CHRATOE
  * Translate an ASCII character into EBCDIC.
  */
-int chratoe( int c)
-  {
+int chratoe(int c)
+{
     return (ebc8859[c]);
-  }
- 
+}
+
 /* ------------------------------------------------------------- STRATOE
  * Translate an ASCII string into EBCDIC in place. Return length.
  */
 int stratoe(unsigned char *string)
-  {
+{
     int i;
- 
+
     for (i = 0; (string[i] = ebc8859[string[i]]) != 0x00; i++);
     return (i);
-  }
- 
+}
+
 /* ------------------------------------------------------------- CHRETOA
  * Translate an EBCDIC character into ASCII.
  */
-int chretoa( int c)
-  {
+int chretoa(int c)
+{
     return (asc8859[c]);
-  }
- 
+}
+
 /* ------------------------------------------------------------- STRETOA
  * Translate an EBCDIC string into ASCII in place. Return length.
  */
 int stretoa(unsigned char *string)
-  {
+{
     int i;
- 
+
     for (i = 0; (string[i] = asc8859[string[i]]) != 0x00; i++);
     return (i);
-  }
-
+}
