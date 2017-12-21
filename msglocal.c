@@ -7,17 +7,16 @@
  * 
  */
 
-#include	<string.h>
-#include	<stdio.h>
-#include	<fcntl.h>
-#include	<errno.h>
-#include	<pwd.h>
-#include	"uft.h"
+#include <string.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <pwd.h>
+#include "uft.h"
 
 /* ------------------------------------------------------------ MSGLOCAL
  */
-int msglocal(char *user, char *text)
-{
+int msglocal(char *user, char *text) {
     static char *eyecatch = "msglocal()";
 
     int fd, i, j;
@@ -30,57 +29,57 @@ int msglocal(char *user, char *text)
 
     /*  if that didn't work,  look in his home directory  */
     if (fd < 0 && errno == ENOENT) {
-	/*  a 'mknod' with 622 perms (writable) might work too  */
-	(void) sprintf(temp, "%s/.msgpipe", homedir(user));
-	fd = open(temp, O_WRONLY | O_NDELAY);
+        /*  a 'mknod' with 622 perms (writable) might work too  */
+        (void) sprintf(temp, "%s/.msgpipe", homedir(user));
+        fd = open(temp, O_WRONLY | O_NDELAY);
     }
 
     /*  if there's no listener ...  */
     if (fd < 0 && errno == ENXIO) {
-	/*  launch our special application to listen  */
-	fd = open(temp, O_WRONLY | O_NDELAY);
-	/*  ... or NOT ...  */
+        /*  launch our special application to listen  */
+        fd = open(temp, O_WRONLY | O_NDELAY);
+        /*  ... or NOT ...  */
     }
     if (fd < 0)
-	return fd;
+        return fd;
 
     /*  who's the message from?  */
     from = getenv("LOGNAME");
     if (*from == 0x00)
-	from = getenv("USER");
+        from = getenv("USER");
     /*  (we should probably do something a little more secure!)  */
     j = BUFSIZ;
     j -= strlen(from);
-    j -= 24;			/*  leave some room  */
+    j -= 24; /*  leave some room  */
     j -= strlen(from);
-    j -= 24;			/*  this is temporary  */
+    j -= 24; /*  this is temporary  */
 
     /* message text comes first */
-    i = 0;			/*  start at the beginning of the buffer  */
+    i = 0; /*  start at the beginning of the buffer  */
     while (*text != 0x00 && i < j)
-	temp[i++] = *text++;
+        temp[i++] = *text++;
     temp[i++] = 0x00;
 
     /*  environment style strings follow  */
-    text = "MSGTYPE=U";		/*  denote that this is a "U msg"  */
+    text = "MSGTYPE=U"; /*  denote that this is a "U msg"  */
     while (*text != 0x00 && i < j)
-	temp[i++] = *text++;
+        temp[i++] = *text++;
     temp[i++] = 0x00;
 
     /*  who is this user message from?  */
-    text = "MSGFROM=";		/*  start of that line  */
+    text = "MSGFROM="; /*  start of that line  */
     while (*text != 0x00 && i < j)
-	temp[i++] = *text++;
+        temp[i++] = *text++;
     while (*from != 0x00 && i < j)
-	temp[i++] = *from++;
+        temp[i++] = *from++;
     temp[i++] = 0x00;
 
     /*  who is this user message to?  */
-    text = "MSGUSER=";		/*  start of that line  */
+    text = "MSGUSER="; /*  start of that line  */
     while (*text != 0x00 && i < j)
-	temp[i++] = *text++;
+        temp[i++] = *text++;
     while (*user != 0x00 && i < j)
-	temp[i++] = *user++;
+        temp[i++] = *user++;
     temp[i++] = 0x00;
 
     /*  and one more NULL terminates the environment  */

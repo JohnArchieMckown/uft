@@ -6,20 +6,19 @@
  * 
  */
 
-#include	"uft.h"
+#include "uft.h"
 
-void uftdinit(void)
-{
-    uftfile0.cfd = 0;		/*  control file  */
-    uftfile0.dfd = 0;		/*  data file  */
-    uftfile0.efd = 0;		/*  ext attr file  */
-    uftfile0.lfd = 0;		/*  log file  */
-    uftfile0.sfd = 0;		/*  server stream  */
-    uftfile0.rfd = 0;		/*  response stream  */
-    uftfile0.cfn = "";		/*  control file  */
-    uftfile0.dfn = "";		/*  data file  */
-    uftfile0.efn = "";		/*  ext attr file  */
-    uftfile0.lfn = "";		/*  log file  */
+void uftdinit(void) {
+    uftfile0.cfd = 0; /*  control file  */
+    uftfile0.dfd = 0; /*  data file  */
+    uftfile0.efd = 0; /*  ext attr file  */
+    uftfile0.lfd = 0; /*  log file  */
+    uftfile0.sfd = 0; /*  server stream  */
+    uftfile0.rfd = 0; /*  response stream  */
+    uftfile0.cfn = ""; /*  control file  */
+    uftfile0.dfn = ""; /*  data file  */
+    uftfile0.efn = ""; /*  ext attr file  */
+    uftfile0.lfn = ""; /*  log file  */
 
     uftfile0.from[0] = '-';
     uftfile0.from[1] = 0x00;

@@ -15,19 +15,18 @@
  * 
  */
 
-#include	<errno.h>
-#include	<fcntl.h>
-#include	<sys/types.h>
-#include	<stdlib.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <stdlib.h>
 
-#include	"uft.h"
+#include "uft.h"
 
 char *from;
 
 /* ------------------------------------------------------------ SENDIMSG 
  */
-int sendimsg(char *user, char *text)
-{
+int sendimsg(char *user, char *text) {
     char buffer[4096], *p;
     int fd, i;
 
@@ -35,11 +34,11 @@ int sendimsg(char *user, char *text)
     sprintf(buffer, "/tmp/%s.msgpipe", user);
     fd = open(buffer, O_WRONLY);
     if (fd < 0) {
-	sprintf(buffer, "%s/.msgpipe", getenv("HOME"));
-	fd = open(buffer, O_WRONLY);
+        sprintf(buffer, "%s/.msgpipe", getenv("HOME"));
+        fd = open(buffer, O_WRONLY);
     }
     if (fd < 0)
-	return fd;
+        return fd;
 
     /*  build the buffer;  begin at offset zero  */
     i = 0;
@@ -47,31 +46,31 @@ int sendimsg(char *user, char *text)
     /*  copy the message text  */
     p = text;
     while (*p)
-	buffer[i++] = *p++;
+        buffer[i++] = *p++;
     buffer[i++] = 0x00;
 
     /*  now environment variables;  first, who from?  */
     p = "MSGFROM=";
     while (*p)
-	buffer[i++] = *p++;
+        buffer[i++] = *p++;
     p = from;
     while (*p)
-	buffer[i++] = *p++;
+        buffer[i++] = *p++;
     buffer[i++] = 0x00;
 
     /*  what type of message?  (MSP if by way of this server)  */
     p = "MSGTYPE=IMSG";
     while (*p)
-	buffer[i++] = *p++;
+        buffer[i++] = *p++;
     buffer[i++] = 0x00;
 
     /*  also ... who's it too?  (in case that isn't obvious)  */
     p = "MSGUSER=";
     while (*p)
-	buffer[i++] = *p++;
+        buffer[i++] = *p++;
     p = user;
     while (*p)
-	buffer[i++] = *p++;
+        buffer[i++] = *p++;
     buffer[i++] = 0x00;
 
     /*  an additional NULL terminates the environment buffer  */
@@ -87,10 +86,8 @@ int sendimsg(char *user, char *text)
     return 0;
 }
 
-
 /* ------------------------------------------------------------------ */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     char buffer[4096], *arg0, *user;
     int i, j, k;
 
@@ -98,19 +95,19 @@ int main(int argc, char *argv[])
 
     /*  process options  */
     for (i = 1; i < argc && argv[i][0] == '-' && argv[i][1] != 0x00; i++) {
-	switch (argv[i][1]) {
-	case 'v':
-	    (void) sprintf(buffer,
-			   "%s: %s local IMSG source", arg0, UFT_VERSION);
-	    (void) putline(2, buffer);
-	    return 0;
-	    break;
-	default:
-	    (void) sprintf(buffer, "%s: invalid option %s", arg0, argv[i]);
-	    (void) putline(2, buffer);
-	    return 20;
-	    break;
-	}
+        switch (argv[i][1]) {
+            case 'v':
+                (void) sprintf(buffer,
+                        "%s: %s local IMSG source", arg0, UFT_VERSION);
+                (void) uft_putline(2, buffer);
+                return 0;
+                break;
+            default:
+                (void) sprintf(buffer, "%s: invalid option %s", arg0, argv[i]);
+                (void) uft_putline(2, buffer);
+                return 20;
+                break;
+        }
     }
 
     from = getenv("LOGNAME");
@@ -118,20 +115,20 @@ int main(int argc, char *argv[])
 
     /*  parse them  */
     if (argc > 1) {
-	k = 0;
-	for (i = 1; i < argc; i++) {
-	    for (j = 0; argv[i][j] != 0x00; j++)
-		buffer[k++] = argv[i][j];
-	    buffer[k++] = ' ';
-	}
-	buffer[k++] = 0x00;
-	(void) sendimsg(user, buffer);
+        k = 0;
+        for (i = 1; i < argc; i++) {
+            for (j = 0; argv[i][j] != 0x00; j++)
+                buffer[k++] = argv[i][j];
+            buffer[k++] = ' ';
+        }
+        buffer[k++] = 0x00;
+        (void) sendimsg(user, buffer);
     } else
-	while (1) {
-	    (void) getline(0, buffer);
-	    if (buffer[0] == '.' && buffer[1] == 0x00)
-		break;
-	    (void) sendimsg(user, buffer);
-	}
+        while (1) {
+            (void) uft_getline(0, buffer);
+            if (buffer[0] == '.' && buffer[1] == 0x00)
+                break;
+            (void) sendimsg(user, buffer);
+        }
     return 0;
 }

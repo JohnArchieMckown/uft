@@ -5,13 +5,12 @@
  *	  Date: 1994-Sep-23 and prior 
  */
 
-#include	"gone.h"
-#include	"uft.h"
-#include	<signal.h>
+#include "gone.h"
+#include "uft.h"
+#include <signal.h>
 
 /* ------------------------------------------------------------------ */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     int ppid, dpid;
     extern int getppid();
     char temp[4096];
@@ -22,13 +21,13 @@ int main(int argc, char *argv[])
     dpid = daemon();
 
     if (dpid) {
-	(void) printf("DPID=%d (to run)\n", dpid);
-	if (dpid > 0) {
-	    (void) putline(1, GONEMSG);
-	    (void) sprintf(temp, "echo %d > $HOME/.gonepid");
-	    (void) system(temp);
-	}
-	return 0;
+        (void) printf("DPID=%d (to run)\n", dpid);
+        if (dpid > 0) {
+            (void) uft_putline(1, GONE_MSG);
+            (void) sprintf(temp, "echo %d > $HOME/.gonepid");
+            (void) system(temp);
+        }
+        return 0;
     }
 
     (void) sleep(3);

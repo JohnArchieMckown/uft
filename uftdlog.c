@@ -9,12 +9,13 @@
 
 /* ------------------------------------------------------------- UFTDLOG 
  */
-int uftdlog(int s, char *b)
-{
+#include "uft.h"
+
+int uftdlog(int s, char *b) {
     char temp[256];
 
     (void) sprintf(temp, "#*%s", b);
-    (void) putline(s, temp);
+    (void) uft_putline(s, temp);
 
     return 0;
 }

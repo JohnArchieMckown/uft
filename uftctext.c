@@ -9,37 +9,36 @@
  *
  */
 
-#include	"uft.h"
+#include "uft.h"
 
 /* ------------------------------------------------------------ UFTCTEXT
  */
-int uftctext(int s, char *b, int l)
-{
-    char t[BUFSIZ] /* , *p */ ;
+int uftctext(int s, char *b, int l) {
+    char t[BUFSIZ] /* , *p */;
     int i, j, k;
 
     k = l / 2;
     if (k > BUFSIZ)
-	k = BUFSIZ;
+        k = BUFSIZ;
 
     j = read(s, t, k);
     if (j < 1)
-	j = read(s, t, k);
+        j = read(s, t, k);
     if (j < 0)
-	return i;
+        return i;
 
-/*  OLD CODE  **
-    p = t;
-    for (i = 0; i < j; i++)
-      {
-	if (*p == '\n')
-	  {
-	    b[i] = '\r';
-	    i++;  j++;
-	  }
-	b[i] = *p++;
-      }
- */
+    /*  OLD CODE  **
+        p = t;
+        for (i = 0; i < j; i++)
+          {
+            if (*p == '\n')
+              {
+                b[i] = '\r';
+                i++;  j++;
+              }
+            b[i] = *p++;
+          }
+     */
     j = htonb(b, t, j);
 
     return j;

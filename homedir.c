@@ -7,15 +7,14 @@
  * 
  */
 
-#include	<pwd.h>
-#include	"uft.h"
+#include <pwd.h>
+#include "uft.h"
 
 /* ------------------------------------------------------------- HOMEDIR
  *  Try to determine the home directory from the system. 
  *  If that fails,  return a best guess. 
  */
-char *homedir(char *u)
-{
+char *homedir(char *u) {
     /*  variables for this function  */
     struct passwd *pwdent;
     static char failsafe[64];
@@ -25,15 +24,15 @@ char *homedir(char *u)
     /*  try to get the real home directory from the system  */
     pwdent = getpwnam(u);
     if (pwdent)
-	return pwdent->pw_dir;
+        return pwdent->pw_dir;
 
     /*  if that failed then make a good guess  */
     p = failsafe;
     q = "/home/";
     for (i = 0; *q != 0x00 && i < 63; i++)
-	*p++ = *q++;
+        *p++ = *q++;
     for (; *u != 0x00 && i < 63; i++)
-	*p++ = *u++;
+        *p++ = *u++;
     *p = 0x00;
     return failsafe;
 }

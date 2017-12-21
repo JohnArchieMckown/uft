@@ -7,10 +7,9 @@
  */
 
 #include        <sys/stat.h>
-#include	"uft.h"
+#include "uft.h"
 
-char *uftcprot(mode_t prot)
-{
+char *uftcprot(mode_t prot) {
     static char buffer[256];
     char *p;
 
@@ -18,47 +17,47 @@ char *uftcprot(mode_t prot)
 
     /*  user permissions  */
     if (prot & (S_IRUSR | S_IWUSR | S_IXUSR)) {
-	*p++ = 'U';
-	*p++ = ':';
-	if (prot & S_IRUSR)
-	    *p++ = 'R';
-	if (prot & S_IWUSR)
-	    *p++ = 'W';
-	if (prot & S_IXUSR)
-	    *p++ = 'X';
-/* 
-	if (prot & S_IREAD) *p++ = 'R'; 
-	if (prot & S_IWRITE) *p++ = 'W'; 
-	if (prot & S_IEXEC) *p++ = 'X'; 
- */
+        *p++ = 'U';
+        *p++ = ':';
+        if (prot & S_IRUSR)
+            *p++ = 'R';
+        if (prot & S_IWUSR)
+            *p++ = 'W';
+        if (prot & S_IXUSR)
+            *p++ = 'X';
+        /* 
+                if (prot & S_IREAD) *p++ = 'R'; 
+                if (prot & S_IWRITE) *p++ = 'W'; 
+                if (prot & S_IEXEC) *p++ = 'X'; 
+         */
     }
 
     /*  group permissions  */
     if (prot & (S_IRGRP | S_IWGRP | S_IXGRP)) {
-	if (p != buffer)
-	    *p++ = ',';
-	*p++ = 'G';
-	*p++ = ':';
-	if (prot & S_IRGRP)
-	    *p++ = 'R';
-	if (prot & S_IWGRP)
-	    *p++ = 'W';
-	if (prot & S_IXGRP)
-	    *p++ = 'X';
+        if (p != buffer)
+            *p++ = ',';
+        *p++ = 'G';
+        *p++ = ':';
+        if (prot & S_IRGRP)
+            *p++ = 'R';
+        if (prot & S_IWGRP)
+            *p++ = 'W';
+        if (prot & S_IXGRP)
+            *p++ = 'X';
     }
 
     /*  world permissions  */
     if (prot & (S_IROTH | S_IWOTH | S_IXOTH)) {
-	if (p != buffer)
-	    *p++ = ',';
-	*p++ = 'W';
-	*p++ = ':';
-	if (prot & S_IROTH)
-	    *p++ = 'R';
-	if (prot & S_IWOTH)
-	    *p++ = 'W';
-	if (prot & S_IXOTH)
-	    *p++ = 'X';
+        if (p != buffer)
+            *p++ = ',';
+        *p++ = 'W';
+        *p++ = ':';
+        if (prot & S_IROTH)
+            *p++ = 'R';
+        if (prot & S_IWOTH)
+            *p++ = 'W';
+        if (prot & S_IXOTH)
+            *p++ = 'X';
     }
 
     /*  terminate the string and return  */

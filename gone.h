@@ -6,4 +6,4 @@
  */
 
 #define GONE_DEFAULT_REPLY
-#define GONE_ "Your messages and files will be logged while you are gone."
+#define GONE_MSG "Your messages and files will be logged while you are gone."

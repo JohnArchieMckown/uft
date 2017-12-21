@@ -10,18 +10,17 @@
  * 
  */
 
-#include	<syslog.h>
-#include	"uft.h"
+#include <syslog.h>
+#include "uft.h"
 
 /* ------------------------------------------------------------------ */
-int msgdlmsg(char *user, char *host, char *from, char *text)
-{
+int msgdlmsg(char *user, char *host, char *from, char *text) {
     static char *eyecatch = "msgdlmsg()";
 
     (void) openlog("msgd", LOG_PID, LOG_USER);
 
     (void) syslog(LOG_DEBUG, "to %s from %s(%s): %s",
-		  user, host, from, text);
+            user, host, from, text);
 
     (void) closelog();
 

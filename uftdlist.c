@@ -12,26 +12,24 @@
  * 
  */
 
-#include	<string.h>
-#include	<stdio.h>
-#include	<fcntl.h>
-#include	<sys/stat.h>
-#include	<time.h>
-#include	"uft.h"
+#include <string.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <time.h>
+#include "uft.h"
 
 /*  there's gotta be a better way to do this than to hard-code it!  */
-static char *mon[] = { "Jan", "Feb", "Mar", "Apr",
+static char *mon[] = {"Jan", "Feb", "Mar", "Apr",
     "May", "Jun", "Jul", "Aug",
-    "Sep", "Oct", "Nov", "Dec"
-};
+    "Sep", "Oct", "Nov", "Dec"};
 
 /*  but I haven't learned enough UNIX yet 
     to know where months are localized ... what headers? functions?  */
 
 /*  ----------------------------------------------------------- UFTDLIST 
  */
-int uftdlist(int seqn)
-{
+int uftdlist(int seqn) {
     static char *eyecatch = "uftdlist()";
 
     char string[80];
@@ -48,7 +46,7 @@ int uftdlist(int seqn)
     (void) sprintf(string, "%04d.lf", seqn);
     fd = open(string, O_RDWR | O_CREAT, S_IREAD);
     if (fd < 0)
-	return fd;
+        return fd;
 
     /*  truncate excesses  */
     (void) strncpy(name, uftfile0.name, 16);
@@ -56,45 +54,45 @@ int uftdlist(int seqn)
 
     p = uftfile0.from;
     for (i = 0; i < 8; i++) {
-	if (*p == 0x00)
-	    break;
-	if (*p == '@')
-	    break;
-	user[i] = *p++;
+        if (*p == 0x00)
+            break;
+        if (*p == '@')
+            break;
+        user[i] = *p++;
     }
     user[i] = 0x00;
     if (user[0] == 0x00) {
-	user[0] = '-';
-	user[1] = 0x00;
+        user[0] = '-';
+        user[1] = 0x00;
     }
 
     if (*p == '@')
-	p++;
+        p++;
     for (i = 0; i < 8; i++) {
-	if (*p == 0x00)
-	    break;
-	/*  if (*p == '.') break;  */
-	host[i] = *p++;
+        if (*p == 0x00)
+            break;
+        /*  if (*p == '.') break;  */
+        host[i] = *p++;
     }
     host[i] = 0x00;
     if (host[0] == 0x00) {
-	host[0] = '-';
-	host[1] = 0x00;
+        host[0] = '-';
+        host[1] = 0x00;
     }
 
     /*  build an 'ls'-style list entry for this UFT file  */
     (void) sprintf(string,
-		   "%c%c%c%c%c%c%c%c%c%c %3d %-8s %-8s %8d %3s %02d %02d:%02d %04d %s",
-		   uftfile0.type[0], uftfile0.cc[0],
-		   uftfile0.hold[0], uftfile0.class[0],
-		   uftfile0.devtype[0], uftfile0.keep[0], uftfile0.msg[0],
-		   '-', '-', '-',
-		   uftfile0.copies, user, host, uftfile0.size,
-		   mon[t1->tm_mon], t1->tm_mday, t1->tm_hour, t1->tm_min,
-		   seqn, uftfile0.name);
+            "%c%c%c%c%c%c%c%c%c%c %3d %-8s %-8s %8d %3s %02d %02d:%02d %04d %s",
+            uftfile0.type[0], uftfile0.cc[0],
+            uftfile0.hold[0], uftfile0.class[0],
+            uftfile0.devtype[0], uftfile0.keep[0], uftfile0.msg[0],
+            '-', '-', '-',
+            uftfile0.copies, user, host, uftfile0.size,
+            mon[t1->tm_mon], t1->tm_mday, t1->tm_hour, t1->tm_min,
+            seqn, uftfile0.name);
 
     /*  write the record  */
-    (void) putline(fd, string);
+    (void) uft_putline(fd, string);
 
     (void) close(fd);
 
@@ -103,23 +101,23 @@ int uftdlist(int seqn)
 
 /* 
  
-	Assignments of the left 10 byte positions: 
+        Assignments of the left 10 byte positions: 
  
-	TYPE 
+        TYPE 
  
-	r CC		ASA (A) or "machine" (M) or none (dash) 
-	w HOLD		none (dash), user (H), system (S), both (D) 
-	x CLASS 	first letter or none (dash) 
+        r CC		ASA (A) or "machine" (M) or none (dash) 
+        w HOLD		none (dash), user (H), system (S), both (D) 
+        x CLASS 	first letter or none (dash) 
  
-	r DEVTYPE	PRT (T) or PUN (U) or none (dash) 
-	w KEEP 
-	x MSG 
+        r DEVTYPE	PRT (T) or PUN (U) or none (dash) 
+        w KEEP 
+        x MSG 
  
-	r ... 
-	w ... 
-	x ... 
+        r ... 
+        w ... 
+        x ... 
  
-	Not processed: FORM DIST DEST 
+        Not processed: FORM DIST DEST 
  
  */
 
